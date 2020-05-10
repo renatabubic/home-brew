@@ -1,0 +1,17 @@
+MVP TIERS:
+
+Tier One:
+- Using a list, user can select & save ingredients they have in their bar cart
+- Once bar cart is populated, users can view all drinks that have the ingredients 
+listed in their cart
+- Users can update bar cart
+- Users can search all drinks by alcohol, ingredient, name, first letter
+
+
+Tier Two: Users can
+- share recipes with friends
+- login using SSO (gmail)
+- save favorite drinks
+- Take & save an image of the cocktail drink and share it with friends or post it 
+on social media
+- See a seemless animated splash screen before app loads
