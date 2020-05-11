@@ -7,9 +7,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  instructions: {
+  itemName: {
     color: "#888",
     fontSize: 18,
+    fontWeight: "bold",
+  },
+  itemText: {
+    color: "#888",
+    fontSize: 15,
   },
   logo: {
     width: 205,
@@ -33,6 +38,16 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     resizeMode: "contain",
+    borderWidth: 5,
+    borderColor: "coral",
+    borderRadius: 180,
+  },
+  itemContainer: {
+    paddingTop: 50,
+    flex: 1,
+    // backgroundColor: "coral",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

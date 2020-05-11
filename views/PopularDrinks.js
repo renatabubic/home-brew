@@ -1,32 +1,45 @@
 import React from "react";
-import { Image, Platform, TouchableOpacity, Text, View } from "react-native";
+import { Image, FlatList, TouchableOpacity, Text, View } from "react-native";
 import styles from "../public/style";
 import axios from "axios";
 import key from "../secrets";
 
-let url = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=vodka";
+const url = `https://www.thecocktaildb.com/api/json/v2/${key}/popular.php`;
 
-export default class PopularDrinks {
+function ItemTile({ item }) {
+  return (
+    <View style={styles.itemContainer}>
+      <Text style={styles.itemName}>{item.strDrink}</Text>
+      <Text style={styles.itemText}>Base: {item.strIngredient1}</Text>
+      <Image source={{ url: item.strDrinkThumb }} style={styles.thumbnail} />
+    </View>
+  );
+}
+
+export default class PopularDrinks extends React.Component {
   constructor() {
+    super();
     this.state = {
       list: [],
     };
   }
   async componentDidMount() {
     let res = await axios.get(url);
-    console.log(res.data);
+    this.setState({ list: res.data.drinks });
   }
   render() {
     return (
       <View style={styles.container}>
-        <Text>
-          All Drinks
-          {this.state.list.length > 0
-            ? this.state.list.map((drink) => {
-                <Text>{drink}</Text>;
-              })
-            : null}
-        </Text>
+        {this.state.list.length > 0 ? (
+          <FlatList
+            data={this.state.list}
+            renderItem={({ item }) => <ItemTile item={item} />}
+            keyExtractor={(item) => item.id}
+            // style={styles.itemContainer}
+          />
+        ) : (
+          <Text>No Drinks to Display</Text>
+        )}
       </View>
     );
   }

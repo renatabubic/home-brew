@@ -1,1 +1,3 @@
-export default key = "9973533";
+const key = "9973533";
+
+export default key;
