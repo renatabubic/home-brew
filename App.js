@@ -1,76 +1,33 @@
-import React from "react";
-import { Image, Platform, TouchableOpacity, Text, View } from "react-native";
-import logo from "./public/assets/icon.png";
-import styles from "./public/style";
-import * as ImagePicker from "expo-image-picker";
-import * as Sharing from "expo-sharing";
-import uploadToAnonymousFilesAsync from "anonymous-files";
+import * as React from "react";
+import { Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+function HomeScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Home!</Text>
+    </View>
+  );
+}
+
+function SettingsScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Settings!</Text>
+    </View>
+  );
+}
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const [selectedImage, setSelectedImage] = React.useState(null);
-
-  let openImagePickerAsync = async () => {
-    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
-    }
-
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    if (pickerResult.cancelled === true) {
-      return;
-    }
-
-    if (Platform.OS === "web") {
-      let remoteUri = await uploadToAnonymousFilesAsync(pickerResult.uri);
-      setSelectedImage({ localUri: pickerResult.uri, remoteUri });
-    } else {
-      setSelectedImage({ localUri: pickerResult.uri, remoteUri: null });
-    }
-  };
-
-  let openShareDialogAsync = async () => {
-    if (!(await Sharing.isAvailableAsync())) {
-      alert(
-        `The image is available for sharing at: ${selectedImage.remoteUri}`
-      );
-      return;
-    }
-
-    Sharing.shareAsync(selectedImage.remoteUri || selectedImage.localUri);
-  };
-
-  if (selectedImage !== null) {
-    return (
-      <View style={styles.container}>
-        <Image
-          source={{ uri: selectedImage.localUri }}
-          style={styles.thumbnail}
-        />
-        <TouchableOpacity onPress={openShareDialogAsync} style={styles.button}>
-          <Text style={styles.buttonText}>Share this photo</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Home Brew</Text>
-      <Image source={logo} style={styles.logo} />
-      <Text style={styles.instructions}>Start mixing...</Text>
-      <Text style={styles.instructions}>Then start drinking</Text>
-
-      <TouchableOpacity
-        onPress={() => alert("Hello, world!")}
-        style={styles.button}
-      >
-        <Text style={styles.buttonText}>What's in your bar cart?</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={openImagePickerAsync} style={styles.button}>
-        <Text style={styles.buttonText}>Pick an Image</Text>
-      </TouchableOpacity>
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
