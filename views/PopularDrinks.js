@@ -15,6 +15,14 @@ function ItemTile({ item }) {
     </View>
   );
 }
+function ItemFull({ item }) {
+  return (
+    <View>
+      <Text>item.strDrink</Text>
+      <Image source={{ url: item.strDrinkThumb }} style={styles.thumbnail} />
+    </View>
+  );
+}
 
 export default class PopularDrinks extends React.Component {
   constructor() {
